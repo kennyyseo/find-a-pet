@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .api import *
 
 # Create your views here.
 
@@ -11,6 +12,5 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
-
-def home_index(request):
-    return render(request, 'home/index.html', )
+# def home_index(request):
+#     return render(request, 'home/index.html', )
