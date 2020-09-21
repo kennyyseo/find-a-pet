@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .api import *
+from main_app.forms import HomeSearchForm
+from django.views.generic.edit import FormView
 
 # Create your views here.
 
@@ -13,6 +15,12 @@ def index(request):
 
 def about(request):
     return render(request, 'about.html')
+
+
+def search(request):
+    zip_code = request.GET['zip_code']
+    local_animals = filter_animals(f"?location={zip_code}")
+    return render(request, 'search.html', {"local_animals": local_animals})
 
 
 @login_required
@@ -38,3 +46,9 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
+
+
+# class HomeSearchView(FormView):
+#     template_name = 'index.html'
+#     form_class = HomeSearchForm
+#     success_url = '/search/'

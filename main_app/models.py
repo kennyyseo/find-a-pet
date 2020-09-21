@@ -8,7 +8,6 @@ from django.contrib.auth.models import User
 class Pet(models.Model):
     api_pet_id = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    favorite = models.BooleanField()
     comments = models.TextField(max_length=300)
 
     def __str__(self):
