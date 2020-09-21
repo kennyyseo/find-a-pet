@@ -2,4 +2,17 @@
 
 <h1>Favorites</h1>
 
-{{users_pets}} {% endblock %}
+<ul>
+    {% for pet in users_pets %}
+    <li>
+        {{ pet.animal.name }}
+
+        <form action="/pets/{{pet.animal.id}}/delete/" method="POST">
+            {% csrf_token %}
+            <button type="submit">Remove</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

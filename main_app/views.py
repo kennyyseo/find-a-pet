@@ -24,8 +24,15 @@ def search(request):
 
 @login_required
 def favorites(request):
-    users_pets = request.user.pets_set.all()
-    return render(request, 'favorites.html', {'users_pets': users_pets})
+    users_pets = request.user.pet_set.all()
+
+    api_pets = []
+
+    for pet in users_pets:
+        pet_data = get_animal(pet.api_pet_id)
+        api_pets.append(pet_data)
+
+    return render(request, 'favorites.html', {'users_pets': api_pets})
 
 
 def signup(request):
@@ -58,4 +65,11 @@ def pets_create(request):
     current_user = request.user
     pet = Pet.objects.create(api_pet_id=api_pet_id, user=current_user)
     pet.save()
+    return redirect('favorites')
+
+
+def pets_delete(request, pet_id):
+    # delete row in db with pet id that's in the request
+    # redirect back to favorites
+    Pet.objects.filter(api_pet_id=pet_id).delete()
     return redirect('favorites')
