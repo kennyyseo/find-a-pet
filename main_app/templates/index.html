@@ -1,7 +1,10 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <h1>Welcome to Find-A-Pet</h1>
 
+<form action="search/" method="GET">
+  <input type="text" name="zip_code" />
+  <button type="submit" class="btn">Submit</button>
+</form>
 
 {% endblock %}
