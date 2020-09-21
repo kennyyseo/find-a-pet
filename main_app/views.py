@@ -1,11 +1,9 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from .api import *
-from main_app.forms import HomeSearchForm
-from django.views.generic.edit import FormView
+from .models import Pet
 
 # Create your views here.
 
@@ -26,7 +24,8 @@ def search(request):
 
 @login_required
 def favorites(request):
-    return render(request, 'favorites.html')
+    users_pets = request.user.pets_set.all()
+    return render(request, 'favorites.html', {'users_pets': users_pets})
 
 
 def signup(request):
@@ -49,7 +48,14 @@ def signup(request):
     return render(request, 'registration/signup.html', context)
 
 
-# class HomeSearchView(FormView):
-#     template_name = 'index.html'
-#     form_class = HomeSearchForm
-#     success_url = '/search/'
+def details(request, api_pet_id):
+    animal = get_animal(api_pet_id)
+    return render(request, 'details.html', {'animal': animal})
+
+
+def pets_create(request):
+    api_pet_id = request.POST['api_pet_id']
+    current_user = request.user
+    pet = Pet.objects.create(api_pet_id=api_pet_id, user=current_user)
+    pet.save()
+    return redirect('favorites')

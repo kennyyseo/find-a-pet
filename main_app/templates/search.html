@@ -1,4 +1,8 @@
 {% extends 'base.html' %} {% block content %}
 
 <h1>Results</h1>
-{{ local_animals }} {% endblock %}
+{% for animal in local_animals.animals %}
+
+<a href="/details/{{animal.id}}">{{animal.name}}</a>
+
+{% endfor %} {% endblock %}

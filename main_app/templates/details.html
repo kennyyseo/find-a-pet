@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>{{animal.animal.name}}</h1>
+
+<form action="/pets/create/" method="POST">
+  {% csrf_token %}
+  <input type="hidden" name="api_pet_id" value="{{animal.animal.id}}" />
+  <button type="submit">Add to Favorites</button>
+</form>
+
+<h5>Address:</h5>
+
+<h6>{{animal.animal.contact.address.address1}}</h6>
+<h6>
+  {{animal.animal.contact.address.city}},
+  {{animal.animal.contact.address.state}}
+  {{animal.animal.contact.address.postcode}}
+</h6>
+
+<p>{{animal}}</p>
+
+{% endblock %}
