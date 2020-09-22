@@ -25,31 +25,23 @@ def search(request):
 @login_required
 def favorites(request):
     users_pets = request.user.pet_set.all()
-
     api_pets = []
-
     for pet in users_pets:
         pet_data = get_animal(pet.api_pet_id)
         api_pets.append(pet_data)
-
     return render(request, 'favorites.html', {'users_pets': api_pets})
 
 
 def signup(request):
     error_message = ''
     if request.method == 'POST':
-        # This is how to create a 'user' form object
-        # that includes the data from the browser
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            # This will add the user to the database
             user = form.save()
-            # This is how we log a user in via code
             login(request, user)
             return redirect('index')
         else:
             error_message = 'Invalid sign up - try again'
-    # A bad POST or a GET request, so render signup.html with an empty form
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
@@ -57,7 +49,16 @@ def signup(request):
 
 def details(request, api_pet_id):
     animal = get_animal(api_pet_id)
-    return render(request, 'details.html', {'animal': animal})
+    db_pet = Pet.objects.get(api_pet_id=api_pet_id)
+    return render(request, 'details.html', {'animal': animal, 'pet': db_pet})
+
+
+def pets_update(request, pet_id):
+    comment = request.POST['comment']
+    pet = Pet.objects.get(api_pet_id=pet_id)
+    pet.comments = comment
+    pet.save()
+    return redirect('details', pet_id)
 
 
 def pets_create(request):
@@ -69,7 +70,5 @@ def pets_create(request):
 
 
 def pets_delete(request, pet_id):
-    # delete row in db with pet id that's in the request
-    # redirect back to favorites
     Pet.objects.filter(api_pet_id=pet_id).delete()
     return redirect('favorites')
