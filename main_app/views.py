@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
+import urllib.parse
 from .api import *
 from .models import Pet
 
@@ -9,7 +10,8 @@ from .models import Pet
 
 
 def index(request):
-    return render(request, 'index.html', )
+    animal_types = get_animal_types()
+    return render(request, 'index.html', {'animal_types': animal_types})
 
 
 def about(request):
@@ -17,9 +19,32 @@ def about(request):
 
 
 def search(request):
-    zip_code = request.GET['zip_code']
-    local_animals = filter_animals(f"?location={zip_code}")
-    return render(request, 'search.html', {"local_animals": local_animals})
+
+    animal_types = get_animal_types()
+
+    parameters = {
+        "animal_types": animal_types
+    }
+
+    if request.method == "POST":
+        zip_code = request.POST['zip_code']
+        animal_type = request.POST['pet_type']
+
+        search = {}
+
+        if animal_type:
+            search['type'] = animal_type
+
+        if zip_code:
+            search['location'] = zip_code
+
+        search_string = f'?{urllib.parse.urlencode(search)}'
+        local_animals = filter_animals(search_string)
+        parameters['search_results'] = local_animals
+
+        return render(request, 'search.html', parameters)
+    else:
+        return render(request, 'search.html', parameters)
 
 
 @login_required
