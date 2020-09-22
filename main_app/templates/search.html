@@ -1,8 +1,115 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Results</h1>
-{% for animal in local_animals.animals %}
+<h1>Search</h1>
 
+<h4>Advanced Search</h4>
+
+<form action="" method="POST">
+
+    <div class="input-field">
+        <input placeholder="Zip Code" id="zip_code" type="text" class="validate" name="zip_code"
+            value="{{ request.POST.zip_code }}" />
+    </div>
+
+    <label for="pet_type">Animal Type</label>
+    <select name="pet_type" class="browser-default">
+        {% for type in animal_types.types %}
+        <option value="{{ type.name }}">{{ type.name }}</option>
+        {% endfor %}
+    </select>
+    <br />
+
+    <label>Size</label>
+    <p>
+        <label>
+            <input type="radio" name="size" value="small">
+            <span>Small</span>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="radio" name="size" value="medium">
+            <span>Medium</span>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="radio" name="size" value="large">
+            <span>Large</span>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="radio" name="size" value="xlarge">
+            <span>Extra Large</span>
+        </label>
+    </p>
+
+    <label>Gender</label>
+    <p>
+        <label>
+            <input type="radio" name="gender" value="male">
+            <span>Male</span>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="radio" name="gender" value="female">
+            <span>Female</span>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="radio" name="gender" value="unknown">
+            <span>Unknown</span>
+        </label>
+    </p>
+
+    <label>Age</label>
+    <p>
+        <label>
+            <input type="radio" name="age" value="baby">
+            <span>Baby</span>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="radio" name="age" value="young">
+            <span>Young</span>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="radio" name="age" value="adult">
+            <span>Adult</span>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="radio" name="age" value="senior">
+            <span>Senior</span>
+        </label>
+    </p>
+
+    <!-- breed, color -->
+
+    <button type="submit" class="btn">Search</button>
+</form>
+
+<hr />
+
+{% if search_results %}
+
+<h4>Results</h4>
+{% for animal in search_results.animals %}
 <a href="/details/{{animal.id}}">{{animal.name}}</a>
+{% endfor %}
 
-{% endfor %} {% endblock %}
+{% else %}
+
+Show random/featured pets for page landing
+
+
+{% endif %}
+
+{% endblock %}
