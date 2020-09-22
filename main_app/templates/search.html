@@ -4,7 +4,9 @@
 
 <h4>Advanced Search</h4>
 
-<form action="" method="POST">
+<form action="/search/" method="POST">
+
+    {% csrf_token %}
 
     <div class="input-field">
         <input placeholder="Zip Code" id="zip_code" type="text" class="validate" name="zip_code"
@@ -13,8 +15,10 @@
 
     <label for="pet_type">Animal Type</label>
     <select name="pet_type" class="browser-default">
+        <option value='' disabled selected>Select</option>
         {% for type in animal_types.types %}
-        <option value="{{ type.name }}">{{ type.name }}</option>
+        <option value="{{ type.name }}" {% if request.POST.pet_type == type.name %} selected {% endif %}>{{ type.name }}
+        </option>
         {% endfor %}
     </select>
     <br />
@@ -22,25 +26,25 @@
     <label>Size</label>
     <p>
         <label>
-            <input type="radio" name="size" value="small">
+            <input type="radio" name="size" value="small" {% if request.POST.size == 'small' %} checked {% endif %}>
             <span>Small</span>
         </label>
     </p>
     <p>
         <label>
-            <input type="radio" name="size" value="medium">
+            <input type="radio" name="size" value="medium" {% if request.POST.size == 'medium' %} checked {% endif %}>
             <span>Medium</span>
         </label>
     </p>
     <p>
         <label>
-            <input type="radio" name="size" value="large">
+            <input type="radio" name="size" value="large" {% if request.POST.size == 'large' %} checked {% endif %}>
             <span>Large</span>
         </label>
     </p>
     <p>
         <label>
-            <input type="radio" name="size" value="xlarge">
+            <input type="radio" name="size" value="xlarge" {% if request.POST.size == 'xlarge' %} checked {% endif %}>
             <span>Extra Large</span>
         </label>
     </p>
@@ -48,19 +52,21 @@
     <label>Gender</label>
     <p>
         <label>
-            <input type="radio" name="gender" value="male">
+            <input type="radio" name="gender" value="male" {% if request.POST.gender == 'male' %} checked {% endif %}>
             <span>Male</span>
         </label>
     </p>
     <p>
         <label>
-            <input type="radio" name="gender" value="female">
+            <input type="radio" name="gender" value="female" {% if request.POST.gender == 'female' %} checked
+                {% endif %}>
             <span>Female</span>
         </label>
     </p>
     <p>
         <label>
-            <input type="radio" name="gender" value="unknown">
+            <input type="radio" name="gender" value="unknown" {% if request.POST.gender == 'unknown' %} checked
+                {% endif %}>
             <span>Unknown</span>
         </label>
     </p>
@@ -68,25 +74,25 @@
     <label>Age</label>
     <p>
         <label>
-            <input type="radio" name="age" value="baby">
+            <input type="radio" name="age" value="baby" {% if request.POST.age == 'baby' %} checked {% endif %}>
             <span>Baby</span>
         </label>
     </p>
     <p>
         <label>
-            <input type="radio" name="age" value="young">
+            <input type="radio" name="age" value="young" {% if request.POST.age == 'young' %} checked {% endif %}>
             <span>Young</span>
         </label>
     </p>
     <p>
         <label>
-            <input type="radio" name="age" value="adult">
+            <input type="radio" name="age" value="adult" {% if request.POST.age == 'adult' %} checked {% endif %}>
             <span>Adult</span>
         </label>
     </p>
     <p>
         <label>
-            <input type="radio" name="age" value="senior">
+            <input type="radio" name="age" value="senior" {% if request.POST.age == 'senior' %} checked {% endif %}>
             <span>Senior</span>
         </label>
     </p>
@@ -101,13 +107,17 @@
 {% if search_results %}
 
 <h4>Results</h4>
-{% for animal in search_results.animals %}
-<a href="/details/{{animal.id}}">{{animal.name}}</a>
-{% endfor %}
+<ol>
+    {% for animal in search_results.animals %}
+    <li><a href="/details/{{animal.id}}">{{animal.name}}</a></li>
+    {% endfor %}
+</ol>
 
 {% else %}
 
-Show random/featured pets for page landing
+<h4>Featured/random Pets</h4>
+
+{{ featured_pets }}
 
 
 {% endif %}

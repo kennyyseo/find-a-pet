@@ -11,7 +11,11 @@ from .models import Pet
 
 def index(request):
     animal_types = get_animal_types()
-    return render(request, 'index.html', {'animal_types': animal_types})
+    featured_pets = get_animals()
+    return render(request, 'index.html', {
+        'animal_types': animal_types,
+        'featured_pets': featured_pets
+    })
 
 
 def about(request):
@@ -21,14 +25,20 @@ def about(request):
 def search(request):
 
     animal_types = get_animal_types()
+    featured_pets = get_animals()
 
     parameters = {
-        "animal_types": animal_types
+        "animal_types": animal_types,
+        "featured_pets": featured_pets
+        # "limit": 50
     }
 
     if request.method == "POST":
-        zip_code = request.POST['zip_code']
-        animal_type = request.POST['pet_type']
+        zip_code = request.POST.get('zip_code', '')
+        animal_type = request.POST.get('pet_type', '')
+        size = request.POST.get('size', '')
+        gender = request.POST.get('gender', '')
+        age = request.POST.get('age', '')
 
         search = {}
 
@@ -37,6 +47,15 @@ def search(request):
 
         if zip_code:
             search['location'] = zip_code
+
+        if size:
+            search['size'] = size
+
+        if gender:
+            search['gender'] = gender
+
+        if age:
+            search['age'] = age
 
         search_string = f'?{urllib.parse.urlencode(search)}'
         local_animals = filter_animals(search_string)
@@ -74,8 +93,18 @@ def signup(request):
 
 def details(request, api_pet_id):
     animal = get_animal(api_pet_id)
-    db_pet = Pet.objects.get(api_pet_id=api_pet_id)
-    return render(request, 'details.html', {'animal': animal, 'pet': db_pet})
+
+    params = {
+        'animal': animal
+    }
+
+    try:
+        db_pet = Pet.objects.get(api_pet_id=api_pet_id)
+        params['pet'] = db_pet
+    except Pet.DoesNotExist:
+        pass
+
+    return render(request, 'details.html', params)
 
 
 def pets_update(request, pet_id):
