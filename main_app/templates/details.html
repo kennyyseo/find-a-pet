@@ -8,6 +8,12 @@
   <button type="submit">Add to Favorites</button>
 </form>
 
+<form action="/pets/{{animal.animal.id}}/update/" method="POST">
+  {% csrf_token %}
+  <textarea name="comment">{{ pet.comments }}</textarea>
+  <button type="submit">save</button>
+</form>
+
 <h5>Address:</h5>
 
 <h6>{{animal.animal.contact.address.address1}}</h6>
