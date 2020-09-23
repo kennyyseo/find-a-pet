@@ -68,7 +68,12 @@ def favorites(request):
     api_pets = []
     for pet in users_pets:
         pet_data = get_animal(pet.api_pet_id)
-        api_pets.append(pet_data)
+
+        if pet_data.animal.status == 'adoptable':
+            api_pets.append(pet_data)
+        else:
+            Pet.objects.filter(api_pet_id=pet.api_pet_id).delete()
+
     return render(request, 'favorites.html', {'users_pets': api_pets})
 
 
