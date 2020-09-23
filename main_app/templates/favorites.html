@@ -5,11 +5,11 @@
 <ul>
     {% for pet in users_pets %}
     <li>
-        <a href="/pets/{{ pet.animal.id }}/">{{ pet.animal.name }}</a>
+        <a href="{% url 'pets_show' pet.animal.id %}">{{ pet.animal.name }}</a>
 
-        <form action="/pets/{{pet.animal.id}}/delete/" method="POST">
+        <form action="{% url 'pets_delete' pet.animal.id %}" method="POST">
             {% csrf_token %}
-            <button type="submit">Remove</button>
+            <button type="submit" class="btn">Remove</button>
         </form>
     </li>
     {% endfor %}
