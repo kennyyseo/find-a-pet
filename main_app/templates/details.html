@@ -2,17 +2,19 @@
 
 <h1>{{animal.animal.name}}</h1>
 
+{% if user.is_authenticated %}
 <form action="/pets/create/" method="POST">
   {% csrf_token %}
   <input type="hidden" name="api_pet_id" value="{{animal.animal.id}}" />
-  <button type="submit">Add to Favorites</button>
+  <button type="submit" class="btn">Add to Favorites</button>
 </form>
 
 <form action="/pets/{{animal.animal.id}}/update/" method="POST">
   {% csrf_token %}
   <textarea name="comment">{{ pet.comments }}</textarea>
-  <button type="submit">save</button>
+  <button type="submit" class="btn">Save</button>
 </form>
+{% endif %}
 
 <h5>Address:</h5>
 

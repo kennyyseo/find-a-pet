@@ -1,22 +1,27 @@
 {% extends 'base.html' %} {% block content %}
+
 <h1>Welcome to Find-A-Pet</h1>
+
 <h3>Search for a local pet!</h3>
+
 <form action="search/" method="POST">
+
   {% csrf_token %}
+
   <div class="input-field">
     <input placeholder="Zip Code" id="zip_code" type="text" class="validate" name="zip_code" />
   </div>
-  <label for="pet_type">Animal Type</label>
+
   <select name="pet_type" class="browser-default">
+    <option disabled selected>All Animals</option>
     {% for type in animal_types.types %}
     <option value="{{ type.name }}">{{ type.name }}</option>
     {% endfor %}
   </select>
+  <br />
+
   <button type="submit" class="btn">Submit</button>
 </form>
-
-
-<hr />
 
 <h4>Featured Pets</h4>
 

@@ -5,7 +5,7 @@
 <ul>
     {% for pet in users_pets %}
     <li>
-        <a href="/details/{{ pet.animal.id }}/">{{ pet.animal.name }}</a>
+        <a href="/pets/{{ pet.animal.id }}/">{{ pet.animal.name }}</a>
 
         <form action="/pets/{{pet.animal.id}}/delete/" method="POST">
             {% csrf_token %}
