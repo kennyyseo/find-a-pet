@@ -3,11 +3,17 @@
 <h1 class="animal_name">{{animal.animal.name}}</h1>
 
 {% if user.is_authenticated %}
-<form action="/pets/create/" method="POST">
+{% if pet %}
+<form action="{% url 'pets_delete' animal.animal.id %}" method="POST">
   {% csrf_token %}
-  <input type="hidden" name="api_pet_id" value="{{animal.animal.id}}" />
+  <button type="submit" class="btn">Remove from Favorites</button>
+</form>
+{% else %}
+<form action="{% url 'pets_create' animal.animal.id %}" method="POST">
+  {% csrf_token %}
   <button type="submit" class="btn">Add to Favorites</button>
 </form>
+{% endif %}
 {% endif %}
 
 <h5>Address:</h5>
@@ -21,7 +27,7 @@
 
 <p>{{animal}}</p>
 
-{% if user.is_authenticated %}
+{% if user.is_authenticated and pet %}
 <form action="/pets/{{animal.animal.id}}/update/" method="POST">
   {% csrf_token %}
   <textarea name="comment">{{ pet.comments }}</textarea>
