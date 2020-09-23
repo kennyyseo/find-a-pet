@@ -26,8 +26,6 @@
 
 {% for pet in featured_pets.animals %}
 
-{{ pet }}
-
 <div class="card" style="width: 18rem">
   <img src="{% if pet.photos.0.small %} {{pet.photos.0.small}} {% else %} https://i.imgur.com/Cl027Ke.png {% endif %}"
     class="card-img-top" alt="" />
