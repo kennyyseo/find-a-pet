@@ -1,9 +1,9 @@
 {% extends 'base.html' %} {% block content %}
 
 <h1 class="animal_name">{{animal.animal.name}}</h1>
+<p>Status: {{animal.animal.status}}</p>
 
-{% if user.is_authenticated %}
-{% if pet %}
+{% if user.is_authenticated %} {% if pet %}
 <form action="{% url 'pets_delete' animal.animal.id %}" method="POST">
   {% csrf_token %}
   <button type="submit" class="btn">Remove from Favorites</button>
@@ -13,26 +13,38 @@
   {% csrf_token %}
   <button type="submit" class="btn">Add to Favorites</button>
 </form>
-{% endif %}
-{% endif %}
+{% endif %} {% endif %}
 
-<h5>Address:</h5>
+<div class="details">
+  <div>
+    <img src="{{animal.animal.photos.0.large}}" alt="" class="pet-image" />
+  </div>
 
-<h6>{{animal.animal.contact.address.address1}}</h6>
-<h6>
-  {{animal.animal.contact.address.city}},
-  {{animal.animal.contact.address.state}}
-  {{animal.animal.contact.address.postcode}}
-</h6>
+  <div>
+    <h3 id="animal-type">Animal Type:</h3>
+    <h6>{{animal.animal.type}}</h6>
 
-<p>{{animal}}</p>
+    <h3>Breed:</h3>
+    <h6>{{animal.animal.breeds.primary}}</h6>
 
-{% if user.is_authenticated and pet %}
-<form action="/pets/{{animal.animal.id}}/update/" method="POST">
-  {% csrf_token %}
-  <textarea name="comment">{{ pet.comments }}</textarea>
-  <button type="submit">save</button>
-</form>
-{% endif %}
+    <h3>Address:</h3>
+    <h6>
+      {{animal.animal.contact.address.address1}}
+      {{animal.animal.contact.address.city}},
+      {{animal.animal.contact.address.state}}
+      {{animal.animal.contact.address.postcode}}
+    </h6>
 
-{% endblock %}
+    <h3>Description:</h3>
+    <h6>{{animal.animal.description}}</h6>
+  </div>
+
+  {%if user.is_authenticated and pet %}
+  <form action="/pets/{{animal.animal.id}}/update/" method="POST">
+    {% csrf_token %}
+    <textarea name="comment" cols="40">{{ pet.comments }}</textarea>
+    <br />
+    <button type="submit">Save Comment</button>
+  </form>
+  {% endif %} {% endblock %}
+</div>
