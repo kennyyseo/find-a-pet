@@ -50,6 +50,7 @@ body {
 
 .btn {
   background-color: #f48153ff;
+  color: white;
   border-color: white;
   border-width: 3px;
 }
@@ -63,6 +64,7 @@ body {
 .cat {
   font-size: 18px;
   font-weight: bold;
+  margin: 20px;
 }
 
 .advopt {
@@ -81,5 +83,31 @@ body {
 }
 
 .fap {
+  color: white;
+}
+
+.card {
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin: 20px;
+  justify-content: space-evenly;
+}
+
+.opt {
+  margin: 23px 50px 0 0;
+}
+
+#advanced-search {
+  margin: 40px 0 40px 0;
+  font-size: 30px;
+}
+
+.dropdown {
+  margin: 20px 0 10px 0;
+}
+
+.dropdown-menu {
+  background-color: #2fb5b8ff;
+  border: 2px solid white;
   color: white;
 }
