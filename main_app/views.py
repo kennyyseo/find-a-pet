@@ -23,16 +23,6 @@ def about(request):
 
 
 def search(request):
-
-    animal_types = get_animal_types()
-    featured_pets = get_animals()
-
-    parameters = {
-        "animal_types": animal_types,
-        "featured_pets": featured_pets
-        # "limit": 50
-    }
-
     if request.method == "POST":
         zip_code = request.POST.get('zip_code', '')
         animal_type = request.POST.get('pet_type', '')
@@ -41,28 +31,34 @@ def search(request):
         age = request.POST.get('age', '')
 
         search = {}
-
         if animal_type:
             search['type'] = animal_type
-
         if zip_code:
             search['location'] = zip_code
-
         if size:
             search['size'] = size
-
         if gender:
             search['gender'] = gender
-
         if age:
             search['age'] = age
+        search['limit'] = 100
 
         search_string = f'?{urllib.parse.urlencode(search)}'
-        local_animals = filter_animals(search_string)
-        parameters['search_results'] = local_animals
-
-        return render(request, 'search.html', parameters)
+        return redirect(f'/search/{search_string}')
     else:
+        animal_types = get_animal_types()
+        featured_pets = get_animals()
+
+        parameters = {
+            "animal_types": animal_types,
+            "featured_pets": featured_pets
+        }
+
+        if request.META['QUERY_STRING'] != '':
+            query_str = request.META['QUERY_STRING']
+            search_results = filter_animals(f'?{query_str}')
+            parameters['search_results'] = search_results
+
         return render(request, 'search.html', parameters)
 
 
@@ -72,7 +68,12 @@ def favorites(request):
     api_pets = []
     for pet in users_pets:
         pet_data = get_animal(pet.api_pet_id)
-        api_pets.append(pet_data)
+
+        if pet_data.animal.status == 'adoptable':
+            api_pets.append(pet_data)
+        else:
+            Pet.objects.filter(api_pet_id=pet.api_pet_id).delete()
+
     return render(request, 'favorites.html', {'users_pets': api_pets})
 
 
@@ -91,13 +92,13 @@ def signup(request):
     return render(request, 'registration/signup.html', context)
 
 
-def details(request, api_pet_id):
+def pets_show(request, api_pet_id):
     animal = get_animal(api_pet_id)
 
-    params = {
-        'animal': animal
-    }
+    if 'status' in animal and animal['status'] != 200:
+        return redirect('favorites')
 
+    params = {'animal': animal}
     try:
         db_pet = Pet.objects.get(api_pet_id=api_pet_id)
         params['pet'] = db_pet
@@ -112,7 +113,7 @@ def pets_update(request, pet_id):
     pet = Pet.objects.get(api_pet_id=pet_id)
     pet.comments = comment
     pet.save()
-    return redirect('details', pet_id)
+    return redirect('pets_show', pet_id)
 
 
 def pets_create(request):

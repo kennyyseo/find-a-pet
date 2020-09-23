@@ -2,23 +2,19 @@
 
 <h1>Search</h1>
 
-
-
 <form action="/search/" method="POST">
 
     {% csrf_token %}
 
     <div class="input-field">
         <label for="zip_code">Zip Code: </label>
-        <input id="zip_code" type="text" class="validate" name="zip_code"
-            value="{{ request.POST.zip_code }}" />
+        <input id="zip_code" type="text" class="validate" name="zip_code" value="{{ request.GET.location }}" />
     </div>
 
-    <label for="pet_type">Animal Type</label>
     <select name="pet_type" class="browser-default">
-        <option value='' disabled selected>Select</option>
+        <option disabled selected>All Animals</option>
         {% for type in animal_types.types %}
-        <option value="{{ type.name }}" {% if request.POST.pet_type == type.name %} selected {% endif %}>{{ type.name }}
+        <option value="{{ type.name }}" {% if request.GET.type == type.name %} selected {% endif %}>{{ type.name }}
         </option>
         {% endfor %}
     </select>
@@ -27,83 +23,86 @@
     <h5>Advanced Search</h5>
 
     <div class="advopt">
-    <label class="cat">Size: </label>
-    <p>
-        <label>
-            <input type="radio" name="size" value="small" {% if request.POST.size == 'small' %} checked {% endif %}>
-            <span>Small</span>
-        </label>
-    </p>
-    <p>
-        <label>
-            <input type="radio" name="size" value="medium" {% if request.POST.size == 'medium' %} checked {% endif %}>
-            <span>Medium</span>
-        </label>
-    </p>
-    <p>
-        <label>
-            <input type="radio" name="size" value="large" {% if request.POST.size == 'large' %} checked {% endif %}>
-            <span>Large</span>
-        </label>
-    </p>
-    <p>
-        <label>
-            <input type="radio" name="size" value="xlarge" {% if request.POST.size == 'xlarge' %} checked {% endif %}>
-            <span>Extra Large</span>
-        </label>
-    </p>
+        <label class="cat">Size: </label>
+        <p>
+            <label>
+                <input type="radio" name="size" value="small" {% if request.GET.size == 'small' %} checked {% endif %}>
+                <span>Small</span>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input type="radio" name="size" value="medium" {% if request.GET.size == 'medium' %} checked
+                    {% endif %}>
+                <span>Medium</span>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input type="radio" name="size" value="large" {% if request.GET.size == 'large' %} checked {% endif %}>
+                <span>Large</span>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input type="radio" name="size" value="xlarge" {% if request.GET.size == 'xlarge' %} checked
+                    {% endif %}>
+                <span>Extra Large</span>
+            </label>
+        </p>
     </div>
 
     <div class="advopt">
-    <label class="cat">Gender:</label>
-    <p>
-        <label>
-            <input type="radio" name="gender" value="male" {% if request.POST.gender == 'male' %} checked {% endif %}>
-            <span>Male</span>
-        </label>
-    </p>
-    <p>
-        <label>
-            <input type="radio" name="gender" value="female" {% if request.POST.gender == 'female' %} checked
-                {% endif %}>
-            <span>Female</span>
-        </label>
-    </p>
-    <p>
-        <label>
-            <input type="radio" name="gender" value="unknown" {% if request.POST.gender == 'unknown' %} checked
-                {% endif %}>
-            <span>Unknown</span>
-        </label>
-    </p>
+        <label class="cat">Gender:</label>
+        <p>
+            <label>
+                <input type="radio" name="gender" value="male" {% if request.GET.gender == 'male' %} checked
+                    {% endif %}>
+                <span>Male</span>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input type="radio" name="gender" value="female" {% if request.GET.gender == 'female' %} checked
+                    {% endif %}>
+                <span>Female</span>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input type="radio" name="gender" value="unknown" {% if request.GET.gender == 'unknown' %} checked
+                    {% endif %}>
+                <span>Unknown</span>
+            </label>
+        </p>
     </div>
 
     <div class="advopt">
-    <label class="cat">Age:</label>
-    <p>
-        <label>
-            <input type="radio" name="age" value="baby" {% if request.POST.age == 'baby' %} checked {% endif %}>
-            <span>Baby</span>
-        </label>
-    </p>
-    <p>
-        <label>
-            <input type="radio" name="age" value="young" {% if request.POST.age == 'young' %} checked {% endif %}>
-            <span>Young</span>
-        </label>
-    </p>
-    <p>
-        <label>
-            <input type="radio" name="age" value="adult" {% if request.POST.age == 'adult' %} checked {% endif %}>
-            <span>Adult</span>
-        </label>
-    </p>
-    <p>
-        <label>
-            <input type="radio" name="age" value="senior" {% if request.POST.age == 'senior' %} checked {% endif %}>
-            <span>Senior</span>
-        </label>
-    </p>
+        <label class="cat">Age:</label>
+        <p>
+            <label>
+                <input type="radio" name="age" value="baby" {% if request.GET.age == 'baby' %} checked {% endif %}>
+                <span>Baby</span>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input type="radio" name="age" value="young" {% if request.GET.age == 'young' %} checked {% endif %}>
+                <span>Young</span>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input type="radio" name="age" value="adult" {% if request.GET.age == 'adult' %} checked {% endif %}>
+                <span>Adult</span>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input type="radio" name="age" value="senior" {% if request.GET.age == 'senior' %} checked {% endif %}>
+                <span>Senior</span>
+            </label>
+        </p>
     </div>
 
     <!-- breed, color -->
@@ -115,35 +114,32 @@
 
 {% if search_results %}
 
+{{ search_results }}
+
 <h4>Results</h4>
 
 <div class="advresults">
-{% for animal in search_results.animals %}
+    {% for animal in search_results.animals %}
     <div class="card" style="width: 18rem">
-      <img src="animal.photos.medium" class="card-img-top" alt="" />
+        <img src="animal.photos.medium" class="card-img-top" alt="" />
         <div class="card-body">
-        <h5 class="card-title">{{animal.name}}</h5>
-        <p class="card-text">
-          {{animal.description}}
-        </p>
-        <a href="/details/{{animal.id}}/" class="btn btn-primary"
-          >See Details</a
-        >        
+            <h5 class="card-title">{{animal.name}}</h5>
+            <p class="card-text">
+                {{animal.description}}
+            </p>
+            <a href="/pets/{{animal.id}}/" class="btn btn-primary">See Details</a>
         </div>
-        
+
     </div>
-{% endfor %}
+    {% endfor %}
 </div>
 
-
-
+<!-- <a href="">Next</a> -->
 
 {% else %}
 
 <h4>Featured/random Pets</h4>
-
 {{ featured_pets }}
-
 
 {% endif %}
 
