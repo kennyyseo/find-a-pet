@@ -11,10 +11,10 @@ main {
   flex: 1 0 auto;
 }
 
-footer.page-footer {
+/* footer.page-footer {
   padding-top: 0;
   text-align: right;
-}
+} */
 
 nav {
   background-color: #f48153ff;
@@ -23,8 +23,11 @@ nav {
 
 body {
   background-color: #85d3d4ff;
-  color: #910c07;
   font-family: "Roboto Mono", monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #910c07;
 }
 
 .greeting {
@@ -44,16 +47,16 @@ body {
   font-size: 32px;
 }
 
-.nav-link {
+/* .nav-link {
   margin: 0 0 0 39px;
-}
+} */
 
-.btn {
+/* .btn {
   background-color: #f48153ff;
   color: white;
   border-color: white;
   border-width: 3px;
-}
+} */
 
 #titlelogo {
   font-family: "Comfortaa", "Courier New", Courier, monospace;
@@ -86,12 +89,12 @@ body {
   color: white;
 }
 
-.card {
+/* .card {
   display: inline-flex;
   flex-wrap: wrap;
   margin: 20px;
   justify-content: space-evenly;
-}
+} */
 
 .opt {
   margin: 23px 50px 0 0;
