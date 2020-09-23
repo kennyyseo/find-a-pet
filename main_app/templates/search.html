@@ -2,14 +2,15 @@
 
 <h1>Search</h1>
 
-<h4>Advanced Search</h4>
+
 
 <form action="/search/" method="POST">
 
     {% csrf_token %}
 
     <div class="input-field">
-        <input placeholder="Zip Code" id="zip_code" type="text" class="validate" name="zip_code"
+        <label for="zip_code">Zip Code: </label>
+        <input id="zip_code" type="text" class="validate" name="zip_code"
             value="{{ request.POST.zip_code }}" />
     </div>
 
@@ -23,7 +24,10 @@
     </select>
     <br />
 
-    <label>Size</label>
+    <h5>Advanced Search</h5>
+
+    <div class="advopt">
+    <label class="cat">Size: </label>
     <p>
         <label>
             <input type="radio" name="size" value="small" {% if request.POST.size == 'small' %} checked {% endif %}>
@@ -48,8 +52,10 @@
             <span>Extra Large</span>
         </label>
     </p>
+    </div>
 
-    <label>Gender</label>
+    <div class="advopt">
+    <label class="cat">Gender:</label>
     <p>
         <label>
             <input type="radio" name="gender" value="male" {% if request.POST.gender == 'male' %} checked {% endif %}>
@@ -70,8 +76,10 @@
             <span>Unknown</span>
         </label>
     </p>
+    </div>
 
-    <label>Age</label>
+    <div class="advopt">
+    <label class="cat">Age:</label>
     <p>
         <label>
             <input type="radio" name="age" value="baby" {% if request.POST.age == 'baby' %} checked {% endif %}>
@@ -96,6 +104,7 @@
             <span>Senior</span>
         </label>
     </p>
+    </div>
 
     <!-- breed, color -->
 
@@ -107,11 +116,27 @@
 {% if search_results %}
 
 <h4>Results</h4>
-<ol>
-    {% for animal in search_results.animals %}
-    <li><a href="/details/{{animal.id}}">{{animal.name}}</a></li>
-    {% endfor %}
-</ol>
+
+<div class="advresults">
+{% for animal in search_results.animals %}
+    <div class="card" style="width: 18rem">
+      <img src="animal.photos.medium" class="card-img-top" alt="" />
+        <div class="card-body">
+        <h5 class="card-title">{{animal.name}}</h5>
+        <p class="card-text">
+          {{animal.description}}
+        </p>
+        <a href="/details/{{animal.id}}/" class="btn btn-primary"
+          >See Details</a
+        >        
+        </div>
+        
+    </div>
+{% endfor %}
+</div>
+
+
+
 
 {% else %}
 
