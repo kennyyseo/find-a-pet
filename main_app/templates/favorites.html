@@ -11,11 +11,12 @@
             <img src="{% if pet.animal.photos.0.medium %} {{pet.animal.photos.0.medium}} {% else %} https://i.imgur.com/Cl027Ke.png {% endif %}"
                 class="card-img-top" alt="" />
             <div class="card-body">
-                <h5 class="card-title"><a href="{% url 'pets_show' pet.animal.id %}">{{ pet.animal.name }}</a></h5>
+                <h5 class="card-title">{{ pet.animal.name }}</h5>
                 <p class="card-text"><form action="{% url 'pets_delete' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="api_pet_id" value="{{ pet.animal.id }}" />
                     <button type="submit" class="btn btn-secondary">Remove</button>
+                    <a href="{% url 'pets_show' pet.animal.id %}" class="btn btn-primary">See Details</a>
                 </form></p>
             </div>
         </div>
