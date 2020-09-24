@@ -7,9 +7,10 @@
     <li>
         <a href="{% url 'pets_show' pet.animal.id %}">{{ pet.animal.name }}</a>
 
-        <form action="{% url 'pets_delete' pet.animal.id %}" method="POST">
+        <form action="{% url 'pets_delete' %}" method="POST">
             {% csrf_token %}
-            <button type="submit" class="btn">Remove</button>
+            <input type="hidden" name="api_pet_id" value="{{ pet.animal.id }}" />
+            <button type="submit" class="btn btn-secondary">Remove</button>
         </form>
     </li>
     {% endfor %}

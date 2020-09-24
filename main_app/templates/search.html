@@ -125,7 +125,7 @@
     <div class="col-sm-6 col-lg-4 col-xl-3">
         <div class="card mb-4">
             <img src="{% if pet.photos.0.medium %} {{pet.photos.0.medium}} {% else %} https://i.imgur.com/Cl027Ke.png {% endif %}"
-                class="card-img-top" alt="" />
+                class="card-img-top" alt="{{pet.type}} available for adoption -  {{pet.contact.phone}}" />
             <div class="card-body">
                 <h5 class="card-title">{{pet.name}}</h5>
                 <p class="card-text">{{pet.description}}</p>
@@ -148,7 +148,7 @@
     <div class="col-sm-6 col-lg-4 col-xl-3">
         <div class="card mb-4">
             <img src="{% if pet.photos.0.medium %} {{pet.photos.0.medium}} {% else %} https://i.imgur.com/Cl027Ke.png {% endif %}"
-                class="card-img-top" alt="" />
+                class="card-img-top" alt="{{pet.type}} available for adoption -  {{pet.contact.phone}}" />
             <div class="card-body">
                 <h5 class="card-title">{{pet.name}}</h5>
                 <p class="card-text">{{pet.description}}</p>
