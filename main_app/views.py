@@ -41,6 +41,7 @@ def search(request):
             search['gender'] = gender
         if age:
             search['age'] = age
+        search['limit'] = 20
 
         search_string = f'?{urllib.parse.urlencode(search)}'
         return redirect(f'/search/{search_string}')
@@ -106,8 +107,9 @@ def pets_update(request):
     api_pet_id = request.POST.get('api_pet_id', '')
     if not api_pet_id:
         return redirect('index')
+    current_user = request.user
     comment = request.POST.get('comment', '')
-    pet = Pet.objects.get(api_pet_id=api_pet_id)
+    pet = Pet.objects.get(api_pet_id=api_pet_id, user=current_user)
     pet.comments = comment
     pet.save()
     return redirect('pets_show', api_pet_id)
