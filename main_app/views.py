@@ -59,13 +59,15 @@ def search(request):
             search_results = filter_animals(f'?{query_str}')
             parameters['search_results'] = search_results
 
-            if 'previous' in search_results['pagination']['_links']:
-                parameters['prev_page'] = search_results['pagination']['_links']['previous']['href'][len(
-                    '/v2/animals'):]
+            if '_links' in search_results['pagination']:
 
-            if 'next' in search_results['pagination']['_links']:
-                parameters['next_page'] = search_results['pagination']['_links']['next']['href'][len(
-                    '/v2/animals'):]
+                if 'previous' in search_results['pagination']['_links']:
+                    parameters['prev_page'] = search_results['pagination']['_links']['previous']['href'][len(
+                        '/v2/animals'):]
+
+                if 'next' in search_results['pagination']['_links']:
+                    parameters['next_page'] = search_results['pagination']['_links']['next']['href'][len(
+                        '/v2/animals'):]
 
         return render(request, 'search.html', parameters)
 
