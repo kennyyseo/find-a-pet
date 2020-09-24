@@ -52,7 +52,7 @@
     </div>
 
     {%if user.is_authenticated and pet %}
-    <form action="/pets/update/" method="POST">
+    <form action="{% url 'pets_update' %}" method="POST">
         {% csrf_token %}
         <div class="form-group">
             <label for="comment">Comments/Notes</label>

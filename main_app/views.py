@@ -41,7 +41,6 @@ def search(request):
             search['gender'] = gender
         if age:
             search['age'] = age
-        search['limit'] = 100
 
         search_string = f'?{urllib.parse.urlencode(search)}'
         return redirect(f'/search/{search_string}')
@@ -58,6 +57,14 @@ def search(request):
             query_str = request.META['QUERY_STRING']
             search_results = filter_animals(f'?{query_str}')
             parameters['search_results'] = search_results
+
+            if 'previous' in search_results['pagination']['_links']:
+                parameters['prev_page'] = search_results['pagination']['_links']['previous']['href'][len(
+                    '/v2/animals'):]
+
+            if 'next' in search_results['pagination']['_links']:
+                parameters['next_page'] = search_results['pagination']['_links']['next']['href'][len(
+                    '/v2/animals'):]
 
         return render(request, 'search.html', parameters)
 
@@ -77,21 +84,6 @@ def favorites(request):
     return render(request, 'favorites.html', {'users_pets': api_pets})
 
 
-def signup(request):
-    error_message = ''
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('index')
-        else:
-            error_message = 'Invalid sign up - try again'
-    form = UserCreationForm()
-    context = {'form': form, 'error_message': error_message}
-    return render(request, 'registration/signup.html', context)
-
-
 def pets_show(request, api_pet_id):
     animal = get_animal(api_pet_id)
 
@@ -109,25 +101,49 @@ def pets_show(request, api_pet_id):
     return render(request, 'details.html', params)
 
 
+@login_required
 def pets_update(request):
-    api_pet_id = request.POST['api_pet_id']
-    comment = request.POST['comment']
+    api_pet_id = request.POST.get('api_pet_id', '')
+    if not api_pet_id:
+        return redirect('index')
+    comment = request.POST.get('comment', '')
     pet = Pet.objects.get(api_pet_id=api_pet_id)
     pet.comments = comment
     pet.save()
     return redirect('pets_show', api_pet_id)
 
 
+@login_required
 def pets_create(request):
-    api_pet_id = request.POST['api_pet_id']
+    api_pet_id = request.POST.get('api_pet_id', '')
+    if not api_pet_id:
+        return redirect('index')
     current_user = request.user
     pet = Pet.objects.create(api_pet_id=api_pet_id, user=current_user)
     pet.save()
-    return redirect('favorites')
+    return redirect('pets_show', api_pet_id)
 
 
+@login_required
 def pets_delete(request):
-    api_pet_id = request.POST['api_pet_id']
+    api_pet_id = request.POST.get('api_pet_id', '')
+    if not api_pet_id:
+        return redirect('index')
     current_user = request.user
     Pet.objects.filter(api_pet_id=api_pet_id, user=current_user).delete()
     return redirect('favorites')
+
+
+def signup(request):
+    error_message = ''
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('index')
+        else:
+            error_message = 'Invalid sign up - try again'
+    form = UserCreationForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'registration/signup.html', context)

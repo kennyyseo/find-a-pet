@@ -2,7 +2,7 @@
 
 <h1 id="search">Search</h1>
 
-<form action="/search/" method="POST">
+<form action="{% url 'search' %}" method="POST">
     {% csrf_token %}
 
     <div class="form-row">
@@ -32,8 +32,6 @@
                 Search</button>
         </div>
     </div>
-
-
 
     <div id="adv-search" class="collapse">
         <div class="form-group">
@@ -119,26 +117,32 @@
 
 {% if search_results %}
 
-<h4>Results</h4>
+<p>Page {{ search_results.pagination.current_page }} of {{ search_results.pagination.total_count }} Results</p>
+
 <div class="row">
     {% for pet in search_results.animals %}
     <div class="col-sm-6 col-lg-4 col-xl-3">
         <div class="card mb-4">
             <img src="{% if pet.photos.0.medium %} {{pet.photos.0.medium}} {% else %} https://i.imgur.com/Cl027Ke.png {% endif %}"
-                class="card-img-top" alt="{{pet.type}} available for adoption -  {{pet.contact.phone}}" />
+                class="card-img-top" alt="{{pet.type}} available for adoption - {{pet.contact.phone}}" />
             <div class="card-body">
                 <h5 class="card-title">{{pet.name}}</h5>
                 <p class="card-text">{{pet.description}}</p>
-                <a href="/pets/{{ pet.id }}/" class="btn btn-primary">See Details</a>
+                <a href="{% url 'pets_show' pet.id %}" class="btn btn-primary">See Details</a>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
 
-<div class="text-right">
-    <a href="">Next</a>
-</div>
+<p class="text-right">
+    {% if prev_page %}
+    <a href="{{ prev_page }}">&laquo;Previous</a>
+    {% endif %}
+    {% if next_page %}
+    <a href="{{ next_page }}">Next&raquo;</a>
+    {% endif %}
+</p>
 
 {% else %}
 
@@ -148,11 +152,11 @@
     <div class="col-sm-6 col-lg-4 col-xl-3">
         <div class="card mb-4">
             <img src="{% if pet.photos.0.medium %} {{pet.photos.0.medium}} {% else %} https://i.imgur.com/Cl027Ke.png {% endif %}"
-                class="card-img-top" alt="{{pet.type}} available for adoption -  {{pet.contact.phone}}" />
+                class="card-img-top" alt="{{pet.type}} available for adoption - {{pet.contact.phone}}" />
             <div class="card-body">
                 <h5 class="card-title">{{pet.name}}</h5>
                 <p class="card-text">{{pet.description}}</p>
-                <a href="/pets/{{ pet.id }}/" class="btn btn-primary">See Details</a>
+                <a href="{% url 'pets_show' pet.id %}" class="btn btn-primary">See Details</a>
             </div>
         </div>
     </div>
