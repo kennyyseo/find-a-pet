@@ -109,7 +109,8 @@ def pets_show(request, api_pet_id):
     return render(request, 'details.html', params)
 
 
-def pets_update(request, api_pet_id):
+def pets_update(request):
+    api_pet_id = request.POST['api_pet_id']
     comment = request.POST['comment']
     pet = Pet.objects.get(api_pet_id=api_pet_id)
     pet.comments = comment
@@ -117,13 +118,16 @@ def pets_update(request, api_pet_id):
     return redirect('pets_show', api_pet_id)
 
 
-def pets_create(request, api_pet_id):
+def pets_create(request):
+    api_pet_id = request.POST['api_pet_id']
     current_user = request.user
     pet = Pet.objects.create(api_pet_id=api_pet_id, user=current_user)
     pet.save()
     return redirect('favorites')
 
 
-def pets_delete(request, api_pet_id):
-    Pet.objects.filter(api_pet_id=api_pet_id).delete()
+def pets_delete(request):
+    api_pet_id = request.POST['api_pet_id']
+    current_user = request.user
+    Pet.objects.filter(api_pet_id=api_pet_id, user=current_user).delete()
     return redirect('favorites')
