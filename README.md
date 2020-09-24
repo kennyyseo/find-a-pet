@@ -10,24 +10,21 @@
 * Log any notes about the animals they’re considering
 #
 
-## screenShots
-## ![Favorites Page](https://i.imgur.com/rTf0dBF.jpg)
-#
-
-## screenShots
-##### ![Detail Page](https://i.imgur.com/l0rKMYx.jpg/)
+## Screenshots:
+## ![Favorites Page](https://i.imgur.com/eRFomoK.png)
 #
 
 ## Technologies Used: 
-### HTML, CSS, Python, Django, API, Database, Psql, Google Oauth, Heroku
+### HTML, CSS, Python, Django, PetFinder API, PostgreSQL, Bootstrap, Heroku
 #
 
 ## Getting Started:
-#### [Heroku](https://herokuapp.com/???)
+#### [Heroku](https://jfk-findapet.herokuapp.com/) - Sign up for an account, then search for a local pet.
 #### [Trello](https://trello.com/b/TWtFWlN2/find-a-pet)
-#### [WireFram](https://www.figma.com/???)
-#### [ERD](https://www???)
+#### [Pitch Deck](https://docs.google.com/presentation/d/1Y2BI1ntuY-SXQ5upKEO6P_egL3w4EIvjpnc-5q1VooE/edit#slide=id.p)
 #
 
+#### 
 ## Next Step:
  Add ability for users to upload info about adoptable pets.
+
