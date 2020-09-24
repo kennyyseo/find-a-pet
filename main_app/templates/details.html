@@ -5,61 +5,80 @@
 
 {% if user.is_authenticated %} {% if pet %}
 <form action="{% url 'pets_delete' %}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="api_pet_id" value="{{ animal.animal.id }}" />
-    <button type="submit" class="btn btn-secondary">Remove from Favorites</button>
+  {% csrf_token %}
+  <input type="hidden" name="api_pet_id" value="{{ animal.animal.id }}" />
+  <button type="submit" class="btn btn-secondary">Remove from Favorites</button>
 </form>
 {% else %}
 <form action="{% url 'pets_create' %}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="api_pet_id" value="{{ animal.animal.id }}" />
-    <button type="submit" class="btn btn-primary">Add to Favorites</button>
+  {% csrf_token %}
+  <input type="hidden" name="api_pet_id" value="{{ animal.animal.id }}" />
+  <button type="submit" class="btn btn-primary">Add to Favorites</button>
 </form>
 {% endif %} {% endif %}
 
-<div class="details">
-    <div>
-        <img src="{% if animal.animal.photos.0.medium %} {{animal.animal.photos.0.medium}} {% else %} https://i.imgur.com/Cl027Ke.png {% endif %}"
-            alt="{{animal.animal.type}} available for adoption -  {{animal.animal.contact.phone}}" class="pet-image" />
-    </div>
+<div class="row">
+  <div class="col-sm-12 col-lg-5 col-xl-6">
+    <img
+      src="{% if animal.animal.photos.0.medium %} {{animal.animal.photos.0.medium}} {% else %} https://i.imgur.com/Cl027Ke.png {% endif %}"
+      alt="{{animal.animal.type}} available for adoption -  {{animal.animal.contact.phone}}"
+      class="pet-image"
+    />
+  </div>
 
-    <div>
-        <h3 id="animal-type">Animal Type:</h3>
-        <p>{{animal.animal.type}}</p>
+  <div class="col-sm-12 col-lg-7 col-xl-6">
+    <h3 id="animal-type">Animal Type:</h3>
+    <p>{{animal.animal.type}}</p>
 
-        <h3>Breed:</h3>
-        <p>{{animal.animal.breeds.primary}}</p>
+    <h3>Breed:</h3>
+    <p>{{animal.animal.breeds.primary}}</p>
 
-        <h3>Gender:</h3>
-        <p>{{animal.animal.gender}}</p>
+    <h3>Gender:</h3>
+    <p>{{animal.animal.gender}}</p>
 
-        <h3>Size:</h3>
-        <p>{{animal.animal.size}}</p>
+    <h3>Size:</h3>
+    <p>{{animal.animal.size}}</p>
 
-        <h3>Age:</h3>
-        <p>{{animal.animal.age}}</p>
+    <h3>Age:</h3>
+    <p>{{animal.animal.age}}</p>
 
-        <h3>Contact:</h3>
-        <p>{{animal.animal.contact.email}}</p>
-        <p>{{animal.animal.contact.phone}}</p>
-        <address>
-            {{animal.animal.contact.address.city}}, {{animal.animal.contact.address.state}}
-            {{animal.animal.contact.address.postcode}}
-        </address>
+    <h3>Contact:</h3>
+    <p>{{animal.animal.contact.email}}</p>
+    <p>{{animal.animal.contact.phone}}</p>
+    <address>
+      {{animal.animal.contact.address.city}},
+      {{animal.animal.contact.address.state}}
+      {{animal.animal.contact.address.postcode}}
+    </address>
 
-        <h3>Description:</h3>
-        <p>{{animal.animal.description}}<a href="{{animal.animal.url}}" target="_blank">Read more &raquo;</a></p>
-    </div>
+    <h3>Description:</h3>
+    <p>
+      {{animal.animal.description}}<a
+        href="{{animal.animal.url}}"
+        target="_blank"
+        >Read more &raquo;</a
+      >
+    </p>
+  </div>
+</div>
 
+<div class="row">
+  <div class="col-12">
     {%if user.is_authenticated and pet %}
     <form action="{% url 'pets_update' %}" method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="comment">Comments/Notes</label>
-            <textarea id="comment" name="comment" class="form-control">{{ pet.comments }}</textarea>
-        </div>
-        <input type="hidden" name="api_pet_id" value="{{ animal.animal.id }}" />
-        <button type="submit" class="btn btn-primary">Save Comment</button>
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="comment">Comments/Notes</label>
+        <textarea id="comment" name="comment" class="form-control">
+        {{ pet.comments }}</textarea
+        >
+      </div>
+
+      <input type="hidden" name="api_pet_id" value="{{ animal.animal.id }}" />
+      <button type="submit" class="btn btn-primary">Save Comment</button>
     </form>
-    {% endif %} {% endblock %}
+  </div>
 </div>
+
+{% endif %} {% endblock %}
