@@ -84,7 +84,7 @@ h6 {
 
 #jfk {
   font-family: "Comfortaa", "Courier New", Courier, monospace;
-  padding: 30px 0 0 0;
+  padding: 30px 0 90px 0;
 }
 
 #abt {
@@ -93,6 +93,7 @@ h6 {
 
 .fap {
   color: white;
+  font-family: "Comfortaa", "Courier New", Courier, monospace;
 }
 
 /* .card {
@@ -146,10 +147,30 @@ h6 {
 }
 
 #favorites {
-  padding: 30px 0 30px 0;
+  padding: 30px 0 0 0;
 }
 
 .btn-primary {
   background-color: #f48153ff;
   border: 2px solid white;
+}
+
+.gh-links {
+  color: #1f5a5d;
+}
+
+.img {
+  width: 200px;
+  border: 2px solid white;
+  margin-bottom: 30px;
+  border-radius: 100px;
+}
+
+.names {
+  margin-bottom: 30px;
+}
+
+#signup,
+#login {
+  padding-top: 30px;
 }
