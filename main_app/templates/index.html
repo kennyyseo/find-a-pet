@@ -19,7 +19,7 @@
             <div class="form-group">
                 <!-- <label for="pet_type">Animal Type</label> -->
                 <select id="pet_type" name="pet_type" class="custom-select">
-                    <option selected>All Animals</option>
+                    <option selected value="">All Animals</option>
                     {% for type in animal_types.types %}
                     <option value="{{ type.name }}">{{ type.name }}</option>
                     {% endfor %}
