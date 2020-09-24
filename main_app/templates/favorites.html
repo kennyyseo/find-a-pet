@@ -1,19 +1,29 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Favorites</h1>
+<h1 id="favorites">Favorites</h1>
 
-<ul>
+
+
+<div class="row">
     {% for pet in users_pets %}
-    <li>
-        <a href="{% url 'pets_show' pet.animal.id %}">{{ pet.animal.name }}</a>
-
-        <form action="{% url 'pets_delete' %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="api_pet_id" value="{{ pet.animal.id }}" />
-            <button type="submit" class="btn btn-secondary">Remove</button>
-        </form>
-    </li>
+    <div class="col-sm-6 col-lg-4 col-xl-3">
+        <div class="card mb-4">
+            <img src="{% if pet.animal.photos.0.medium %} {{pet.animal.photos.0.medium}} {% else %} https://i.imgur.com/Cl027Ke.png {% endif %}"
+                class="card-img-top" alt="" />
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'pets_show' pet.animal.id %}">{{ pet.animal.name }}</a></h5>
+                <p class="card-text"><form action="{% url 'pets_delete' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="api_pet_id" value="{{ pet.animal.id }}" />
+                    <button type="submit" class="btn btn-secondary">Remove</button>
+                </form></p>
+            </div>
+        </div>
+    </div>
     {% endfor %}
-</ul>
+</div>
+
+
+
 
 {% endblock %}

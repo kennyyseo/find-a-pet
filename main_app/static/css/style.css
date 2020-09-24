@@ -26,7 +26,12 @@ body {
   font-family: "Roboto Mono", monospace;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: #910c07;
 }
 
@@ -37,7 +42,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .animal_name {
-  margin: 50px 50px 10px 0;
+  margin: 30px 50px 10px 0;
 }
 
 #logo {
@@ -134,4 +139,17 @@ h6 {
 
 #animal-type {
   margin-top: 20px;
+}
+
+#search {
+  padding: 30px 0 0 0;
+}
+
+#favorites {
+  padding: 30px 0 30px 0;
+}
+
+.btn-primary {
+  background-color: #f48153ff;
+  border: 2px solid white;
 }
