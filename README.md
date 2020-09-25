@@ -1,6 +1,6 @@
 # Find-A-Pet
 
-#### Find-A-Pet is an app that connects users to local pets, allowing people to save their favorite animals.
+#### Find-A-Pet is an app that connects users to local pets, allowing people to save their favorite animals to their personal dash!
 #
 
 ## Features:
